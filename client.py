@@ -4,12 +4,15 @@ import time
 # r = redis.Redis(connection_pool=pool)
 
 redisClient = redis.Redis()
+redisSub = redis.Redis()
 
-for n in range(100):
+
+#for n in range(5):
     #print('Something',n)
-    redisClient.publish("Service","good")
-    time.sleep(1)
-    redisClient.publish("Motor Movement", "motor")
-    time.sleep(1)
+redisClient.publish("Service", "good")
+time.sleep(1)
 
-
+pubsub = redisSub.pubsub()
+pubsub.subscribe("This is main")
+for item in pubsub.listen():
+    print('This is main',item['data'])

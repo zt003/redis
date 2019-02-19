@@ -1,15 +1,22 @@
 import redis
-
+i = 1
 redisClient = redis.Redis()
+redisPublisher = redis.Redis()
 
 pubsub1 = redisClient.pubsub()
 pubsub1.subscribe("Service","MM")
 
 for item in pubsub1.listen():
-    if item['channel'] == b'MM':
+    if item['data'] == b'mm':
         print("This is Motor Control", item['data'])
-    if item['channel'] == b'Service':
+        break
+    if item['data'] == b'good':
         print("This is Service",item['data'])
+        break
+
+while True:
+    redisPublisher.publish("This is main",'main')
+
 #client_pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 #client_r = redis.Redis(connection_pool=client_pool)
 # client_r = redis.Redis()
