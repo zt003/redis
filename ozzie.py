@@ -5,19 +5,37 @@ import time
 
 redisClient = redis.Redis()
 redisSub = redis.Redis()
-
-release = input('Press the Release Button?: Y/N')
-if release == 'Y':
-    redisClient.publish("Button Pressed", "yes")
-
-#for n in range(5):
-    #print('Something',n)
-
 pubsub = redisSub.pubsub()
 pubsub.subscribe("This is main")
+press = 0
 
-for item in pubsub.listen():
-    #redisClient.publish("Con",'good connection')
-    if item['data'] == b'main':
-        print('Dispensing Pills right now')
-        break
+while True:
+    release = input('Press the Release Button?: Y/N')
+    if release == 'Y':
+        redisClient.publish("Interface", "Release-yes")
+        press = 1
+    elif release == 'N':
+        redisClient.publish("Interface", "Release-no")
+
+    if press == 0:
+        ad = input('Do user adhere to the medication?: Y/N')
+        if ad == 'Y':
+            redisClient.publish("Interface", "Nonad-no")
+        elif ad == 'N':
+            redisClient.publish("Interface", "Nonad-yes")
+
+    #for n in range(5):
+        #print('Something',n)
+
+
+    for item in pubsub.listen():
+        #redisClient.publish("Con",'good connection')
+        if item['data'] == b'Medrun':
+            print('Dispensing Pills right now')
+            press = 0
+            break
+        elif item['data'] == b'Nonad-run':
+            print('Pills stored in Non-adherence space')
+            press = 0
+            break
+

@@ -8,7 +8,8 @@ def compare_time(regiment):
     year = keys[0][0:4]
     month = keys [0][7]
     date = keys[0][7:9]
-    hour = keys[0][10:12]
+    hour = keys[0][10:11]
+    print(hour)
     if str(time1.tm_year) == year and str(time1.tm_mon)== month and str(time1.tm_mday) == date and str(time1.tm_hour) == hour:
         return 'Y'
     else:
