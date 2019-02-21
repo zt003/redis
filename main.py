@@ -1,11 +1,14 @@
 import redis
 import time
 import queue
+from time-test import*
 
-reg_info = {'2019 2 20 15': '00', '2019 2 20':'19 00'}
+reg_info = {'2019 2 20 19':'00', '2019 2 20 19':'00'}
 Re_Button_Pressed = 0
 Sleep_Button_Pressed = 0
 Release_Count = 0
+
+compare_time(reg_info)
 
 def main():
 
