@@ -26,8 +26,14 @@ redisClient = redis.Redis()
 redisPublisher = redis.Redis()
 
 pubsub = redisClient.pubsub()
-pubsub.subscribe("Interface")
+pubsub.subscribe("Interface","wireless")
 
+
+for item in pubsub.listen():
+    if type(item['data']) is not int:
+        item = str(item['data'],'utf-8')
+        print(item)
+        break
 
 def main():
 

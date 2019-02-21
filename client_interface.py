@@ -5,11 +5,11 @@ import time
 
 redisClient = redis.Redis()
 redisSub = redis.Redis()
-
+reg_info = {'2019 2 21 0':'00', '2019 2 20 19':'00'}
 
 #for n in range(5):
     #print('Something',n)
-redisClient.publish("Service", "good")
+redisClient.publish("Service", reg_info)
 
 pubsub = redisSub.pubsub()
 pubsub.subscribe("This is main")

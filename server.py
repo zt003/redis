@@ -9,12 +9,13 @@ pubsub1 = redisClient.pubsub()
 pubsub1.subscribe("Service","MM","Con")
 
 for item in pubsub1.listen():
-    if item['data'] == b'mm':
-        print("This is Motor Control", item['data'])
-        break
-    if item['data'] == b'good':
-        print("This is Service",item['data'])
-        break
+    print(type(item['data']))
+    # if item['data'] == b'mm':
+    #     print("This is Motor Control", item['data'])
+    #     break
+    # if item['data'] == b'good':
+    #     print("This is Service",item['data'])
+    #     break
 #print('1')
 
 for i in range(2):
