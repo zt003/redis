@@ -10,10 +10,11 @@ def compare_time(regiment):
     date = keys[0][7:9]
     hour = keys[0][10:12]
     if str(time1.tm_year) == year and str(time1.tm_mon)== month and str(time1.tm_mday) == date and str(time1.tm_hour) == hour:
-        print('Y')
+        return 'Y'
     else:
-        print('N')
+        return 'N'
 
 # Test case for compare_time function
 # reg_info = {'2019 2 20 19':'00', '2019 2 20 19':'00'}
 # compare_time(reg_info)
+
