@@ -1,10 +1,12 @@
 import redis
+import time
 i = 1
+receive = 0
 redisClient = redis.Redis()
 redisPublisher = redis.Redis()
 
 pubsub1 = redisClient.pubsub()
-pubsub1.subscribe("Service","MM")
+pubsub1.subscribe("Service","MM","Con")
 
 for item in pubsub1.listen():
     if item['data'] == b'mm':
@@ -13,24 +15,27 @@ for item in pubsub1.listen():
     if item['data'] == b'good':
         print("This is Service",item['data'])
         break
+#print('1')
 
-while True:
-    redisPublisher.publish("This is main",'main')
+for i in range(2):
+    redisPublisher.publish("This is main","main")
+    time.sleep(0.5)
 
-#client_pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
-#client_r = redis.Redis(connection_pool=client_pool)
-# client_r = redis.Redis()
-# client_p = client_r.pubsub()
-# client_p.subscribe(["Service"])
-
-# motor_pool = redis.ConnectionPool(host='localhost', port=5555, db=0)
-# motor_r = redis.Redis(connection_pool=motor_pool)
-# motor_p = motor_r.pubsub()
-# motor_p.subscribe(["Motor Movement"])
-
+# for item in pubsub1.listen():
+#     #print('2')
+#     print(item)
+#     #print('3')
 #
-# for item in client_p.listen():
-#     print('listening')
-#     print(item['data'])
-# for item in motor_p.listen():
-#     print(item['data'])
+# while receive == 0:
+#     print('2')
+#     for item in pubsub1.listen():
+#         print('3')
+#         if item['data'] == b'goodconnection':
+#             print('receiving')
+#             receive = 1
+#             break
+#         else:
+#             redisPublisher.publish("This is main",'main')
+#             time.sleep(1)
+
+
