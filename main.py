@@ -32,7 +32,9 @@ pubsub.subscribe("Interface","wireless")
 for item in pubsub.listen():
     if type(item['data']) is not int:
         item = str(item['data'],'utf-8')
+        print('Medication Regimen Received')
         print(item)
+        print('')
         break
 
 def main():
@@ -62,10 +64,12 @@ def main():
         for item in pubsub.listen():
             if item['data'] == b'Release-yes':
                 print("User pressed the release button")
+                print('')
                 Re_Button_Pressed = 1
                 break
             elif item['data'] == b'Release-no':
                 print('User does not pressed the release button')
+                print('')
                 break
 
         if Re_Button_Pressed == 0:
@@ -82,10 +86,12 @@ def main():
 
         if Re_Button_Pressed == 1:
             #print('1')
+            print("Pill is dispensing")
             dispense_motor.Forward()
             cut_motor.Forward()
             data_logger[str(str(time.asctime()))] = 'adhere'
             redisPublisher.publish("This is main","Medrun")
+            print('')
             non_adherence = 0
             Re_Button_Pressed = 0
 
@@ -101,11 +107,13 @@ def main():
 
         if non_adherence == 1:
             #print('2')
+            print('Activate the non-adherence mechanism')
             nonad_motor.Forward()
             dispense_motor.Forward()
             cut_motor.Forward()
             data_logger[str(str(time.asctime()))] = 'not adhere'
             redisPublisher.publish("This is main","Nonad-run")
+            print('')
             non_adherence = 0
             Re_Button_Pressed = 0
 
