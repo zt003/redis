@@ -5,7 +5,7 @@ import time
 
 redisClient = redis.Redis()
 redisSub = redis.Redis()
-reg_info = {'2019 2 21 0':'00', '2019 2 20 19':'00'}
+reg_info = '2019 2 13'
 
 #for n in range(5):
     #print('Something',n)

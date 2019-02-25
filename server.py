@@ -9,7 +9,11 @@ pubsub1 = redisClient.pubsub()
 pubsub1.subscribe("Service","MM","Con")
 
 for item in pubsub1.listen():
-    print(type(item['data']))
+    if type(item['data']) is not int:
+        item = str(item['data'], 'utf-8')
+        item = item.split()
+        print(item[1])
+        break
     # if item['data'] == b'mm':
     #     print("This is Motor Control", item['data'])
     #     break

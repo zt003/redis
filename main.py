@@ -1,13 +1,13 @@
 import redis
 import time
 import queue
+import datetime
 from help import *
 from motor import *
 
 
 
-
-reg_info = {'2019 2 21 0':'00', '2019 2 20 19':'00'} #Medication Regiments
+reg = [] #medication regiment holder
 Re_Button_Pressed = 0 #Release Button Pressed Flg
 Sleep_Button_Pressed = 1 #Sleep Button Pressed Flag
 Release_Count = 0 #Time that the user pressed the sleep button
@@ -30,12 +30,19 @@ pubsub.subscribe("Interface","wireless")
 
 
 for item in pubsub.listen():
+    #These lines here ensure that the regimen main file received from Wireless module is valid
     if type(item['data']) is not int:
         item = str(item['data'],'utf-8')
+        reg = item.split()
         print('Medication Regimen Received')
-        print(item)
-        print('')
-        break
+        if validate(int(reg[0]),int(reg[1]),int(reg[2]),int(reg[3]),int(reg[4])) == 'N':
+            print('Medication Regimen is invalid')
+            redisPublisher.publish("This is main","invalid")
+        else:
+            print('Medication Regimen is valid')
+            redisPublisher.publish("This is main","valid")
+            break
+
 
 def main():
 

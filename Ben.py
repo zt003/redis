@@ -5,10 +5,20 @@ import time
 
 redisClient = redis.Redis()
 redisSub = redis.Redis()
+pubsub = redisSub.pubsub()
+pubsub.subscribe("This is main")
 
-reg_info = {'2019 2 21 0':'00', '2019 2 20 19':'00'} #Medication Regiments
+reg_info = '2019 2 24 18 00' #Medication Regiments
+reg_info2 = '2019 2 28 18 00'
 print(reg_info)
 
 redisClient.publish("wireless",reg_info)
-time.sleep(1)
-
+for item in pubsub.listen():
+    if type(item['data']) is not int:
+        item = str(item['data'],'utf-8')
+        if item == 'invalid':
+            print(item)
+            redisClient.publish("wireless",reg_info2)
+        elif item == 'valid':
+            print(item)
+            break
