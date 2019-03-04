@@ -12,13 +12,31 @@ reg_info = '2019 2 24 18 00' #Medication Regiments
 reg_info2 = '2019 2 28 18 00'
 print(reg_info)
 
-redisClient.publish("wireless",reg_info)
 for item in pubsub.listen():
     if type(item['data']) is not int:
         item = str(item['data'],'utf-8')
-        if item == 'invalid':
-            print(item)
-            redisClient.publish("wireless",reg_info2)
-        elif item == 'valid':
-            print(item)
+        if item == 'yes':
+            redisClient.publish("wireless", reg_info)
+            for item in pubsub.listen():
+                if type(item['data']) is not int:
+                    item = str(item['data'], 'utf-8')
+                    if item == 'invalid':
+                        print(item)
+                        redisClient.publish("wireless", reg_info2)
+                    elif item == 'valid':
+                        print(item)
+                        break
             break
+        elif item == 'no':
+            pass
+
+# redisClient.publish("wireless",reg_info)
+# for item in pubsub.listen():
+#     if type(item['data']) is not int:
+#         item = str(item['data'],'utf-8')
+#         if item == 'invalid':
+#             print(item)
+#             redisClient.publish("wireless",reg_info2)
+#         elif item == 'valid':
+#             print(item)
+#             break
